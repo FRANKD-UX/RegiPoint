@@ -53,3 +53,94 @@ body {
         }
         .hidden { display: none !important; }
         .form-section { margin-bottom: 30px; }
+
+        .profile-header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 30px 0;
+            margin-bottom: 30px;
+        }
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 15px;
+        }
+        .document-card {
+            transition: transform 0.2s;
+        }
+        .document-card:hover {
+            transform: translateY(-2px);
+        }
+        .status-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+        }
+        .doc-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .certified-required {
+            border-left: 4px solid #dc3545;
+        }
+        .not-certified {
+            border-left: 4px solid #28a745;
+        }
+        .progress-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(#28a745 0deg 216deg, #e9ecef 216deg 360deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .progress-circle::before {
+            content: '';
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: white;
+            position: absolute;
+        }
+        .progress-text {
+            position: relative;
+            z-index: 10;
+            font-weight: bold;
+            color: #28a745;
+        }
+        .nav-pills .nav-link.active {
+            background-color: #1e3c72;
+        }
+        .offline-work-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .cidb-grade-badge {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .project-card {
+            border-left: 3px solid #007bff;
+        }
+        .experience-level {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .hidden { display: none !important; }

@@ -61,13 +61,13 @@ regapp/
     └── regapp.db          # SQLite database (auto-created)
 ```
 
-## 🌍 Supported Countries/Bodies
+##  Supported Countries/Bodies
 - **Nigeria**: Corporate Affairs Commission (CAC)
 - **South Africa**: Companies and Intellectual Property Commission (CIPC)
 - **Rwanda**: Rwanda Development Board (RDB)
 - **Ghana**: Ghana Revenue Authority (GRA)
 
-## 🔄 Offline Features
+##  Offline Features
 
 ### Document Queuing
 - Images are stored locally when offline
@@ -84,7 +84,7 @@ regapp/
 - Background sync for queued uploads
 - Offline detection and indicators
 
-## 📊 Document Expiry Tracking
+##  Document Expiry Tracking
 - **Police Clearance**: 3 months validity
 - **Bank Statement**: 1 month validity
 - **ID Copy**: No expiry
@@ -95,7 +95,7 @@ Visual indicators:
 - 🟡 Expiring soon (yellow, ≤7 days)
 - 🔴 Expired (red)
 
-## 🛠️ Development Notes
+##  Development Notes
 
 ### Customization
 - **Add new regulatory bodies**: Update the company circles in `index.html`
@@ -116,7 +116,7 @@ Visual indicators:
 - `POST /api/process-queue` - Process offline queue
 - `POST /api/ussd` - USSD data simulation
 
-## 🚨 Security Notes
+##  Security Notes
 - Change the Flask secret key in production
 - Implement proper password hashing
 - Add rate limiting for API endpoints
@@ -143,14 +143,14 @@ Visual indicators:
 - **Safari**: Most features (some PWA limitations)
 - **Internet Explorer**: Not supported
 
-## 📈 Performance Optimizations
+##  Performance Optimizations
 - Minimal CSS/JS for low-power devices
 - Compressed images and resources
 - Local storage for form data
 - Efficient SQLite queries
 - Bootstrap CDN for faster loading
 
-## 🔄 Updates and Maintenance
+##  Updates and Maintenance
 - Update cache version in service worker for updates
 - Monitor document expiry dates
 - Regular database cleanup

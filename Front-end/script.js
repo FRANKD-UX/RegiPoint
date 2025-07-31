@@ -385,3 +385,313 @@
         document.addEventListener('DOMContentLoaded', () => {
             new RegApp();
         });
+
+        // CIDB Profile App Class
+        class CIDBProfile {
+            constructor() {
+                this.profileData = JSON.parse(localStorage.getItem('cidbProfile') || '{}');
+                this.projects = JSON.parse(localStorage.getItem('cidbProjects') || '[]');
+                this.documents = JSON.parse(localStorage.getItem('cidbDocuments') || '{}');
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.loadProfileData();
+                this.updateProgressDisplay();
+                this.loadProjects();
+            }
+
+            setupEventListeners() {
+                // Form submissions
+                document.getElementById('personalForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.savePersonalData();
+                });
+
+                document.getElementById('companyForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.saveCompanyData();
+                });
+
+                document.getElementById('projectForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.addProject();
+                });
+
+                // Document uploads
+                document.querySelectorAll('.document-upload').forEach(input => {
+                    input.addEventListener('change', (e) => {
+                        this.handleDocumentUpload(e);
+                    });
+                });
+
+                // Submit application
+                document.getElementById('submitApplication').addEventListener('click', () => {
+                    this.submitApplication();
+                });
+
+                // Offline work
+                document.getElementById('offlineWorkBtn').addEventListener('click', () => {
+                    this.enableOfflineWork();
+                });
+
+                // Auto-save on input changes
+                document.querySelectorAll('input, textarea, select').forEach(input => {
+                    input.addEventListener('change', () => {
+                        this.autoSave();
+                    });
+                });
+            }
+
+            savePersonalData() {
+                const form = document.getElementById('personalForm');
+                const formData = new FormData(form);
+                const data = {};
+                
+                for (let [key, value] of formData.entries()) {
+                    data[key] = value;
+                }
+                
+                this.profileData.personal = data;
+                localStorage.setItem('cidbProfile', JSON.stringify(this.profileData));
+                this.updateProgressDisplay();
+                alert('Personal details saved successfully!');
+            }
+
+            saveCompanyData() {
+                const form = document.getElementById('companyForm');
+                const formData = new FormData(form);
+                const data = {};
+                
+                // Handle checkboxes for specialties
+                const specialties = [];
+                document.querySelectorAll('input[name="specialties"]:checked').forEach(cb => {
+                    specialties.push(cb.value);
+                });
+                data.specialties = specialties;
+                
+                // Handle other fields
+                for (let [key, value] of formData.entries()) {
+                    if (key !== 'specialties') {
+                        data[key] = value;
+                    }
+                }
+                
+                this.profileData.company = data;
+                localStorage.setItem('cidbProfile', JSON.stringify(this.profileData));
+                this.updateProgressDisplay();
+                alert('Company details saved successfully!');
+            }
+
+            addProject() {
+                const form = document.getElementById('projectForm');
+                const formData = new FormData(form);
+                const project = {};
+                
+                for (let [key, value] of formData.entries()) {
+                    project[key] = value;
+                }
+                
+                project.id = Date.now();
+                project.dateAdded = new Date().toISOString();
+                
+                this.projects.push(project);
+                localStorage.setItem('cidbProjects', JSON.stringify(this.projects));
+                
+                this.loadProjects();
+                form.reset();
+                alert('Project added successfully!');
+            }
+
+            handleDocumentUpload(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const documentType = event.target.name;
+                
+                const documentInfo = {
+                    name: file.name,
+                    type: documentType,
+                    uploadDate: new Date().toISOString(),
+                    size: file.size,
+                    status: 'uploaded'
+                };
+
+                this.documents[documentType] = documentInfo;
+                localStorage.setItem('cidbDocuments', JSON.stringify(this.documents));
+                
+                this.updateProgressDisplay();
+                alert(`${file.name} uploaded successfully!`);
+            }
+
+            loadProfileData() {
+                // Load personal data
+                if (this.profileData.personal) {
+                    const form = document.getElementById('personalForm');
+                    Object.keys(this.profileData.personal).forEach(key => {
+                        const input = form.querySelector(`[name="${key}"]`);
+                        if (input) {
+                            input.value = this.profileData.personal[key];
+                        }
+                    });
+                }
+
+                // Load company data
+                if (this.profileData.company) {
+                    const form = document.getElementById('companyForm');
+                    Object.keys(this.profileData.company).forEach(key => {
+                        if (key === 'specialties') {
+                            this.profileData.company[key].forEach(specialty => {
+                                const checkbox = form.querySelector(`input[value="${specialty}"]`);
+                                if (checkbox) checkbox.checked = true;
+                            });
+                        } else {
+                            const input = form.querySelector(`[name="${key}"]`);
+                            if (input) {
+                                input.value = this.profileData.company[key];
+                            }
+                        }
+                    });
+                }
+            }
+
+            loadProjects() {
+                const projectsList = document.getElementById('projectsList');
+                
+                if (this.projects.length === 0) {
+                    // Keep the sample projects if no real projects exist
+                    return;
+                }
+
+                // Clear and reload with actual projects
+                let html = '';
+                this.projects.forEach(project => {
+                    html += `
+                        <div class="project-card card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="mb-1">${project.projectName}</h6>
+                                        <p class="text-muted mb-2">Client: ${project.clientName}</p>
+                                        <p class="mb-2">${project.projectDescription}</p>
+                                        <small class="text-muted">${new Date(project.startDate).toLocaleDateString()} - ${new Date(project.completionDate).toLocaleDateString()} | ${project.projectType}</small>
+                                    </div>
+                                    <div class="text-end">
+                                        <h6 class="text-success">R${parseInt(project.projectValue).toLocaleString()}</h6>
+                                        ${project.contactPerson ? `<small class="text-muted">Contact: ${project.contactPerson}<br>${project.contactPhone || ''}</small>` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                projectsList.innerHTML = html;
+            }
+
+            updateProgressDisplay() {
+                let completionPercentage = 0;
+                let documentsUploaded = 0;
+                const totalSections = 4; // personal, company, documents, experience
+                const totalDocuments = 12;
+                
+                // Check personal data completion
+                if (this.profileData.personal && Object.keys(this.profileData.personal).length > 5) {
+                    completionPercentage += 25;
+                }
+                
+                // Check company data completion
+                if (this.profileData.company && Object.keys(this.profileData.company).length > 5) {
+                    completionPercentage += 25;
+                }
+                
+                // Check documents
+                documentsUploaded = Object.keys(this.documents).length;
+                completionPercentage += (documentsUploaded / totalDocuments) * 25;
+                
+                // Check projects
+                if (this.projects.length >= 2) {
+                    completionPercentage += 25;
+                } else if (this.projects.length >= 1) {
+                    completionPercentage += 12.5;
+                }
+                
+                completionPercentage = Math.round(completionPercentage);
+                
+                // Update header display
+                document.getElementById('profileComplete').textContent = `${completionPercentage}%`;
+                document.getElementById('documentsCount').textContent = `${documentsUploaded}/${totalDocuments}`;
+                document.getElementById('progressText').textContent = `${completionPercentage}%`;
+                
+                // Update progress circle
+                const progressCircle = document.getElementById('progressCircle');
+                const degrees = (completionPercentage / 100) * 360;
+                progressCircle.style.background = `conic-gradient(#28a745 0deg ${degrees}deg, #e9ecef ${degrees}deg 360deg)`;
+                
+                // Update profile name if available
+                if (this.profileData.personal && this.profileData.personal.firstName && this.profileData.personal.lastName) {
+                    document.getElementById('profileName').textContent = 
+                        `${this.profileData.personal.firstName} ${this.profileData.personal.lastName}`;
+                }
+
+                // Update target grade if available
+                if (this.profileData.company && this.profileData.company.targetGrade) {
+                    document.getElementById('targetGrade').textContent = `Grade ${this.profileData.company.targetGrade}`;
+                }
+            }
+
+            autoSave() {
+                // Auto-save functionality for better UX
+                setTimeout(() => {
+                    const personalForm = document.getElementById('personalForm');
+                    const companyForm = document.getElementById('companyForm');
+                    
+                    // Save personal data if form has content
+                    if (personalForm.querySelector('input').value) {
+                        this.savePersonalData();
+                    }
+                    
+                    // Save company data if form has content
+                    if (companyForm.querySelector('input').value) {
+                        this.saveCompanyData();
+                    }
+                }, 1000);
+            }
+
+            submitApplication() {
+                const completion = parseInt(document.getElementById('profileComplete').textContent);
+                
+                if (completion < 80) {
+                    alert('Please complete at least 80% of your profile before submitting.');
+                    return;
+                }
+                
+                // Simulate application submission
+                const applicationData = {
+                    profile: this.profileData,
+                    projects: this.projects,
+                    documents: this.documents,
+                    submissionDate: new Date().toISOString(),
+                    applicationId: 'CIDB-' + Date.now()
+                };
+                
+                localStorage.setItem('cidbApplication', JSON.stringify(applicationData));
+                
+                alert(`Application submitted successfully!\nApplication ID: ${applicationData.applicationId}\n\nYou will receive confirmation via email within 48 hours.`);
+                
+                // Redirect back to main app
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            }
+
+            enableOfflineWork() {
+                alert('Offline work enabled! All your data is automatically saved locally and will sync when you go back online.');
+            }
+        }
+
+        // Initialize the CIDB Profile app
+        document.addEventListener('DOMContentLoaded', () => {
+            new CIDBProfile();
+        });

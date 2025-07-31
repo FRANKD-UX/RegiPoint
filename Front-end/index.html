@@ -14,7 +14,8 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">   
 </head>
-<body>
+
+   <body>
     <!-- Offline Indicator -->
     <div id="offlineIndicator" class="offline-indicator">Offline Mode</div>
     
@@ -52,37 +53,88 @@
     </div>
 
     <!-- Home Page -->
-    <div id="homePage" class="container mt-4 hidden">
-        <div class="row">
-            <div class="col-12">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4>Select Regulatory Body</h4>
-                    <button id="logoutBtn" class="btn btn-outline-secondary btn-sm">Logout</button>
-                </div>
-            </div>
-        </div>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4>Select Regulatory Body</h4>
+    <div>
+        <a href="cidb-profile.html" class="btn btn-outline-primary btn-sm me-2">Profile</a>
+        <button id="logoutBtn" class="btn btn-outline-secondary btn-sm">Logout</button>
+    </div>
+</div>
+
         
-        <div class="row">
+        <!-- Nigeria -->
+        <div class="row mb-3">
+            <div class="col-12"><h6 class="text-muted">🇳🇬 Nigeria</h6></div>
             <div class="col-6 text-center">
                 <div class="company-circle" data-company="cac" data-country="nigeria">
                     <div>
-                        <div style="font-size: 24px;">🏢</div>
-                        <small>CAC Nigeria</small>
+                        <div style="font-size: 20px;">🏢</div>
+                        <small>CAC</small>
                     </div>
                 </div>
             </div>
+            <div class="col-6 text-center">
+                <div class="company-circle" data-company="firs" data-country="nigeria">
+                    <div>
+                        <div style="font-size: 20px;">💰</div>
+                        <small>FIRS</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- South Africa -->
+        <div class="row mb-3">
+            <div class="col-12"><h6 class="text-muted">🇿🇦 South Africa</h6></div>
             <div class="col-6 text-center">
                 <div class="company-circle" data-company="cipc" data-country="south-africa">
                     <div>
-                        <div style="font-size: 24px;">🏛️</div>
-                        <small>CIPC S.Africa</small>
+                        <div style="font-size: 18px;">🏛️</div>
+                        <small>CIPC</small>
                     </div>
                 </div>
             </div>
             <div class="col-6 text-center">
+                <div class="company-circle" data-company="sars" data-country="south-africa">
+                    <div>
+                        <div style="font-size: 18px;">📊</div>
+                        <small>SARS</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 text-center">
+                <div class="company-circle" data-company="sarb" data-country="south-africa">
+                    <div>
+                        <div style="font-size: 18px;">🏦</div>
+                        <small>SARB</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 text-center">
+                <div class="company-circle" data-company="fsca" data-country="south-africa">
+                    <div>
+                        <div style="font-size: 18px;">⚖️</div>
+                        <small>FSCA</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 text-center mt-2">
+                <div class="company-circle" data-company="dtic" data-country="south-africa">
+                    <div>
+                        <div style="font-size: 18px;">🏭</div>
+                        <small>DTIC</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other Countries -->
+        <div class="row">
+            <div class="col-12"><h6 class="text-muted">🌍 Other Countries</h6></div>
+            <div class="col-6 text-center">
                 <div class="company-circle" data-company="rdb" data-country="rwanda">
                     <div>
-                        <div style="font-size: 24px;">🌟</div>
+                        <div style="font-size: 20px;">🌟</div>
                         <small>RDB Rwanda</small>
                     </div>
                 </div>
@@ -90,7 +142,7 @@
             <div class="col-6 text-center">
                 <div class="company-circle" data-company="gra" data-country="ghana">
                     <div>
-                        <div style="font-size: 24px;">⭐</div>
+                        <div style="font-size: 20px;">⭐</div>
                         <small>GRA Ghana</small>
                     </div>
                 </div>
@@ -124,31 +176,74 @@
         </div>
 
         <form id="applicationForm">
+            <!-- USSD Autofill Button -->
+            <div class="text-center mb-4">
+                <button type="button" id="ussdAutofillBtn" class="btn btn-primary btn-lg">
+                    📱 Fill All Fields via USSD
+                </button>
+                <p class="text-muted mt-2 mb-0">
+                    <small>Automatically populate all personal and business information</small>
+                </p>
+            </div>
+
             <!-- Personal Information -->
             <div class="form-section">
                 <div class="card">
                     <div class="card-header">
-                        <h6>Personal Information</h6>
+                        <h6>👤 Personal Information</h6>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Full Name</label>
-                                <input type="text" class="form-control" name="fullName" required>
-                                <button type="button" class="btn btn-link btn-sm ussd-fill" data-field="fullName">Fill via USSD</button>
+                                <label class="form-label">First Name *</label>
+                                <input type="text" class="form-control ussd-field" name="firstName" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">ID Number</label>
-                                <input type="text" class="form-control" name="idNumber" required>
-                                <button type="button" class="btn btn-link btn-sm ussd-fill" data-field="idNumber">Fill via USSD</button>
+                                <label class="form-label">Last Name *</label>
+                                <input type="text" class="form-control ussd-field" name="lastName" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Phone Number</label>
-                                <input type="tel" class="form-control" name="phone" required>
+                                <label class="form-label">ID/Passport Number *</label>
+                                <input type="text" class="form-control ussd-field" name="idNumber" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email">
+                                <label class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control ussd-field" name="dateOfBirth">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Phone Number *</label>
+                                <input type="tel" class="form-control ussd-field" name="phone" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-control ussd-field" name="email">
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="form-label">Residential Address *</label>
+                                <textarea class="form-control ussd-field" name="residentialAddress" rows="2" required></textarea>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">City *</label>
+                                <input type="text" class="form-control ussd-field" name="city" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Postal Code</label>
+                                <input type="text" class="form-control ussd-field" name="postalCode">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nationality *</label>
+                                <select class="form-control" name="nationality" required>
+                                    <option value="">Select Nationality</option>
+                                    <option value="south-african">South African</option>
+                                    <option value="nigerian">Nigerian</option>
+                                    <option value="rwandan">Rwandan</option>
+                                    <option value="ghanaian">Ghanaian</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Tax Reference Number</label>
+                                <input type="text" class="form-control ussd-field" name="taxNumber">
                             </div>
                         </div>
                     </div>
@@ -159,27 +254,123 @@
             <div class="form-section">
                 <div class="card">
                     <div class="card-header">
-                        <h6>Company Information</h6>
+                        <h6>🏢 Company Information</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label class="form-label">Proposed Company Name *</label>
+                                <input type="text" class="form-control ussd-field" name="companyName" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Alternative Name</label>
+                                <input type="text" class="form-control ussd-field" name="alternativeName">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Business Type *</label>
+                                <select class="form-control" name="businessType" required>
+                                    <option value="">Select Business Type</option>
+                                    <option value="private-company">Private Company (Pty Ltd)</option>
+                                    <option value="public-company">Public Company</option>
+                                    <option value="close-corporation">Close Corporation (CC)</option>
+                                    <option value="sole-proprietorship">Sole Proprietorship</option>
+                                    <option value="partnership">Partnership</option>
+                                    <option value="npc">Non-Profit Company (NPC)</option>
+                                    <option value="trust">Trust</option>
+                                    <option value="cooperative">Cooperative</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Industry Sector *</label>
+                                <select class="form-control" name="industrySector" required>
+                                    <option value="">Select Industry</option>
+                                    <option value="agriculture">Agriculture & Forestry</option>
+                                    <option value="mining">Mining & Quarrying</option>
+                                    <option value="manufacturing">Manufacturing</option>
+                                    <option value="construction">Construction</option>
+                                    <option value="retail">Wholesale & Retail Trade</option>
+                                    <option value="transport">Transport & Storage</option>
+                                    <option value="accommodation">Accommodation & Food</option>
+                                    <option value="information">Information & Communication</option>
+                                    <option value="financial">Financial & Insurance</option>
+                                    <option value="professional">Professional Services</option>
+                                    <option value="education">Education</option>
+                                    <option value="health">Health & Social Work</option>
+                                    <option value="other">Other Services</option>
+                                </select>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="form-label">Business Description *</label>
+                                <textarea class="form-control ussd-field" name="businessDescription" rows="3" placeholder="Describe your main business activities..." required></textarea>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="form-label">Registered Business Address *</label>
+                                <textarea class="form-control ussd-field" name="businessAddress" rows="2" required></textarea>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Expected Annual Turnover</label>
+                                <select class="form-control" name="expectedTurnover">
+                                    <option value="">Select Range</option>
+                                    <option value="0-100k">R0 - R100,000</option>
+                                    <option value="100k-500k">R100,001 - R500,000</option>
+                                    <option value="500k-1m">R500,001 - R1,000,000</option>
+                                    <option value="1m-5m">R1,000,001 - R5,000,000</option>
+                                    <option value="5m-plus">R5,000,000+</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Number of Employees</label>
+                                <select class="form-control" name="numberOfEmployees">
+                                    <option value="">Select Range</option>
+                                    <option value="1">1 (Owner only)</option>
+                                    <option value="2-5">2-5 employees</option>
+                                    <option value="6-20">6-20 employees</option>
+                                    <option value="21-50">21-50 employees</option>
+                                    <option value="51-plus">51+ employees</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Share Capital (if applicable)</label>
+                                <input type="number" class="form-control ussd-field" name="shareCapital" placeholder="Amount in ZAR">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Number of Shareholders</label>
+                                <input type="number" class="form-control" name="numberOfShareholders" min="1" max="50">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Banking Information -->
+            <div class="form-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h6>🏦 Banking Information</h6>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Company Name</label>
-                                <input type="text" class="form-control" name="companyName" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Business Type</label>
-                                <select class="form-control" name="businessType" required>
-                                    <option value="">Select...</option>
-                                    <option value="sole-proprietorship">Sole Proprietorship</option>
-                                    <option value="partnership">Partnership</option>
-                                    <option value="limited-company">Limited Company</option>
-                                    <option value="ngo">NGO</option>
+                                <label class="form-label">Preferred Bank</label>
+                                <select class="form-control" name="preferredBank">
+                                    <option value="">Select Bank</option>
+                                    <option value="standard-bank">Standard Bank</option>
+                                    <option value="fnb">First National Bank (FNB)</option>
+                                    <option value="absa">ABSA Bank</option>
+                                    <option value="nedbank">Nedbank</option>
+                                    <option value="capitec">Capitec Bank</option>
+                                    <option value="investec">Investec</option>
+                                    <option value="other">Other</option>
                                 </select>
                             </div>
-                            <div class="col-12 mb-3">
-                                <label class="form-label">Business Address</label>
-                                <textarea class="form-control" name="businessAddress" rows="3" required></textarea>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Account Type Needed</label>
+                                <select class="form-control" name="accountType">
+                                    <option value="">Select Account Type</option>
+                                    <option value="business-current">Business Current Account</option>
+                                    <option value="business-savings">Business Savings Account</option>
+                                    <option value="business-credit">Business Credit Account</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -190,26 +381,43 @@
             <div class="form-section">
                 <div class="card">
                     <div class="card-header">
-                        <h6>Required Documents</h6>
+                        <h6>📄 Required Documents</h6>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
+                            <label class="form-label">Certified Copy of ID/Passport *</label>
+                            <input type="file" class="form-control document-upload" name="idCopy" accept="image/*,.pdf" required>
+                            <small class="text-muted">Must be certified within the last 3 months</small>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Police Clearance Certificate</label>
                             <input type="file" class="form-control document-upload" name="policeClearance" accept="image/*,.pdf" data-expires="90">
-                            <small class="text-muted">Valid for 3 months</small>
+                            <small class="text-muted">Required for certain business types - Valid for 3 months</small>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Bank Statement</label>
-                            <input type="file" class="form-control document-upload" name="bankStatement" accept="image/*,.pdf" data-expires="30">
-                            <small class="text-muted">Valid for 1 month</small>
+                            <label class="form-label">Proof of Residential Address *</label>
+                            <input type="file" class="form-control document-upload" name="proofOfAddress" accept="image/*,.pdf" data-expires="30" required>
+                            <small class="text-muted">Utility bill, rates notice, or bank statement (not older than 3 months)</small>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">ID Copy</label>
-                            <input type="file" class="form-control document-upload" name="idCopy" accept="image/*,.pdf">
+                            <label class="form-label">Bank Statement *</label>
+                            <input type="file" class="form-control document-upload" name="bankStatement" accept="image/*,.pdf" data-expires="30" required>
+                            <small class="text-muted">Latest 3 months bank statements</small>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Passport Photo</label>
-                            <input type="file" class="form-control document-upload" name="passportPhoto" accept="image/*">
+                            <label class="form-label">Business Plan/Proposal</label>
+                            <input type="file" class="form-control document-upload" name="businessPlan" accept=".pdf,.doc,.docx">
+                            <small class="text-muted">Detailed business plan (PDF or Word document)</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Professional Reference Letter</label>
+                            <input type="file" class="form-control document-upload" name="referenceLetter" accept="image/*,.pdf">
+                            <small class="text-muted">From accountant, lawyer, or business associate</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Passport Size Photo *</label>
+                            <input type="file" class="form-control document-upload" name="passportPhoto" accept="image/*" required>
+                            <small class="text-muted">Recent colored passport-size photograph</small>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RegApp - CIDB Profile</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: #1e3c72;">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <strong>RegApp</strong>
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="index.html">← Back to Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-center">
+                    <div class="profile-avatar">
+                        👤
+                    </div>
+                    <h5 class="mb-0" id="profileName">Thabo Mthembu</h5>
+                    <small class="opacity-75">CIDB Contractor Registration</small>
+                </div>
+                <div class="col-md-6">
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <h4 class="mb-0" id="profileComplete">60%</h4>
+                            <small>Profile Complete</small>
+                        </div>
+                        <div class="col-4">
+                            <h4 class="mb-0" id="targetGrade">Grade 3</h4>
+                            <small>Target Grade</small>
+                        </div>
+                        <div class="col-4">
+                            <h4 class="mb-0" id="documentsCount">7/12</h4>
+                            <small>Documents</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="progress-circle" id="progressCircle">
+                        <div class="progress-text" id="progressText">60%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- CIDB Information Alert -->
+        <div class="alert alert-info mb-4">
+            <div class="d-flex align-items-center">
+                <div class="me-3" style="font-size: 24px;">🏗️</div>
+                <div>
+                    <h6 class="alert-heading mb-1">Keep your profile up to date </h6>
+                    <p class="mb-0">make sure that your certified documents are up to date </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <ul class="nav nav-pills mb-4" id="profileTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="personal-tab" data-bs-toggle="pill" data-bs-target="#personal" type="button">
+                    👤 Personal Details
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="company-tab" data-bs-toggle="pill" data-bs-target="#company" type="button">
+                    🏢 Company Details
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="documents-tab" data-bs-toggle="pill" data-bs-target="#documents" type="button">
+                    📄 Documents
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="experience-tab" data-bs-toggle="pill" data-bs-target="#experience" type="button">
+                    🔨 Experience
+                </button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="profileTabsContent">
+            <!-- Personal Details Tab -->
+            <div class="tab-pane fade show active" id="personal" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">👤 Personal Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="personalForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">First Name *</label>
+                                    <input type="text" class="form-control" name="firstName" value="Thabo" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Last Name *</label>
+                                    <input type="text" class="form-control" name="lastName" value="Mthembu" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">South African ID Number *</label>
+                                    <input type="text" class="form-control" name="idNumber" value="8501234567089" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Date of Birth</label>
+                                    <input type="date" class="form-control" name="dateOfBirth" value="1985-02-15">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Mobile Number *</label>
+                                    <input type="tel" class="form-control" name="mobile" value="+27821234567" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Email Address *</label>
+                                    <input type="email" class="form-control" name="email" value="thabo.mthembu@email.com" required>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Residential Address *</label>
+                                    <textarea class="form-control" name="residentialAddress" rows="2" required>123 Nelson Mandela Drive, Sandton, Johannesburg, 2196</textarea>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Highest Qualification</label>
+                                    <select class="form-control" name="qualification">
+                                        <option value="">Select Qualification</option>
+                                        <option value="matric">Matric/Grade 12</option>
+                                        <option value="certificate">Certificate</option>
+                                        <option value="diploma" selected>Diploma</option>
+                                        <option value="degree">Degree</option>
+                                        <option value="honours">Honours</option>
+                                        <option value="masters">Masters</option>
+                                        <option value="phd">PhD</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Professional Registration</label>
+                                    <select class="form-control" name="professionalReg">
+                                        <option value="">Select Registration</option>
+                                        <option value="ecsa">ECSA (Engineering Council SA)</option>
+                                        <option value="sacap">SACAP (Architects)</option>
+                                        <option value="sacqsp">SACQSP (Quantity Surveyors)</option>
+                                        <option value="saice">SAICE (Civil Engineers)</option>
+                                        <option value="other">Other Professional Body</option>
+                                        <option value="none" selected>None</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Personal Details</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Company Details Tab -->
+            <div class="tab-pane fade" id="company" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">🏢 Company Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="companyForm">
+                            <div class="row">
+                                <div class="col-md-8 mb-3">
+                                    <label class="form-label">Company Name *</label>
+                                    <input type="text" class="form-control" name="companyName" value="Ubuntu Construction Solutions (Pty) Ltd" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Registration Number</label>
+                                    <input type="text" class="form-control" name="registrationNumber" value="2023/123456/07">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">VAT Number</label>
+                                    <input type="text" class="form-control" name="vatNumber" value="4123456789">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">CIDB Target Registration Grade *</label>
+                                    <select class="form-control" name="targetGrade" required>
+                                        <option value="">Select Grade</option>
+                                        <option value="1">Grade 1 (R200k)</option>
+                                        <option value="2">Grade 2 (R650k)</option>
+                                        <option value="3" selected>Grade 3 (R2M)</option>
+                                        <option value="4">Grade 4 (R6.5M)</option>
+                                        <option value="5">Grade 5 (R20M)</option>
+                                        <option value="6">Grade 6 (R65M)</option>
+                                        <option value="7">Grade 7 (R200M)</option>
+                                        <option value="8">Grade 8 (R650M)</option>
+                                        <option value="9">Grade 9 (Unlimited)</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Construction Specialties *</label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="specialties" value="CE" id="ce" checked>
+                                                <label class="form-check-label" for="ce">CE - Civil Engineering</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="specialties" value="GB" id="gb" checked>
+                                                <label class="form-check-label" for="gb">GB - General Building</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="specialties" value="EB" id="eb">
+                                                <label class="form-check-label" for="eb">EB - Electrical</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="specialties" value="ME" id="me">
+                                                <label class="form-check-label" for="me">ME - Mechanical</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="specialties" value="EP" id="ep">
+                                                <label class="form-check-label" for="ep">EP - Earthworks</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="specialties" value="RD" id="rd">
+                                                <label class="form-check-label" for="rd">RD - Roads</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="specialties" value="PW" id="pw">
+                                                <label class="form-check-label" for="pw">PW - Pipe & Water</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="specialties" value="DM" id="dm">
+                                                <label class="form-check-label" for="dm">DM - Demolition</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="specialties" value="SC" id="sc">
+                                                <label class="form-check-label" for="sc">SC - Special</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Business Address *</label>
+                                    <textarea class="form-control" name="businessAddress" rows="2" required>456 Business Park, Rivonia Boulevard, Sandton, 2196</textarea>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Number of Employees</label>
+                                    <select class="form-control" name="employees">
+                                        <option value="">Select Range</option>
+                                        <option value="1-5" selected>1-5 employees</option>
+                                        <option value="6-20">6-20 employees</option>
+                                        <option value="21-50">21-50 employees</option>
+                                        <option value="51-100">51-100 employees</option>
+                                        <option value="100+">100+ employees</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Years in Business</label>
+                                    <select class="form-control" name="yearsInBusiness">
+                                        <option value="">Select Range</option>
+                                        <option value="0-1">Less than 1 year</option>
+                                        <option value="1-3" selected>1-3 years</option>
+                                        <option value="3-5">3-5 years</option>
+                                        <option value="5-10">5-10 years</option>
+                                        <option value="10+">10+ years</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Company Details</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Documents Tab -->
+            <div class="tab-pane fade" id="documents" role="tabpanel">
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <div class="alert alert-warning">
+                            <h6 class="alert-heading">📋 Document Requirements</h6>
+                            <p class="mb-2"><strong class="text-danger">Red border</strong> = Requires certified copies</p>
+                            <p class="mb-0"><strong class="text-success">Green border</strong> = Original/uncertified copies acceptable</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certified Documents Required -->
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <h6 class="text-danger">🔒 Certified Documents Required</h6>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="card document-card h-100 certified-required">
+                            <div class="card-body text-center position-relative">
+                                <span class="badge bg-danger status-badge">Certified Required</span>
+                                <div class="doc-icon">📋</div>
+                                <h6>Identity Document</h6>
+                                <p class="text-muted small">Certified copy of SA ID or passport</p>
+                                <input type="file" class="form-control mb-2 document-upload" name="idDocument" accept=".pdf,.jpg,.jpeg,.png">
+                                <small class="text-muted">Must be certified by commissioner of oaths</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <div class="card document-card h-100 certified-required">
+                            <div class="card-body text-center position-relative">
+                                <span class="badge bg-danger status-badge">Certified Required</span>
+                                <div class="doc-icon">🏢</div>
+                                <h6>Company Registration Certificate</h6>
+                                <p class="text-muted small">CIPC certificate of incorporation</p>
+                                <input type="file" class="form-control mb-2 document-upload" name="companyRegistration" accept=".pdf,.jpg,.jpeg,.png">
+                                <small class="text-muted">Certified copy from CIPC</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <div class="card document-card h-100 certified-required">
+                            <div class="card-body text-center position-relative">
+                                <span class="badge bg-danger status-badge">Certified Required</span>
+                                <div class="doc-icon">📜</div>
+                                <h6>Qualifications Certificate</h6>
+                                <p class="text-muted small">Educational/trade qualifications</p>
+                                <input type="file" class="form-control mb-2 document-upload" name="qualifications" accept=".pdf,.jpg,.jpeg,.png">
+                                <small class="text-muted">Certified by issuing institution</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <div class="card document-card h-100 certified-required">
+                            <div class="card-body text-center position-relative">
+                                <span class="badge bg-danger status-badge">Certified Required</span>
+                                <div class="doc-icon">🏦</div>
+                                <h6>Bank Confirmation Letter</h6>
+                                <p class="text-muted small">Banking relationship confirmation</p>
+                                <input type="file" class="form-control mb-2 document-upload" name="bankConfirmation" accept=".pdf,.jpg,.jpeg,.png">
+                                <small class="text-muted">On bank letterhead, certified</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Non-Certified Documents -->
+                <div class="row">
+                    <div class="col-12 mb-3 mt-4">
+                        <h6 class="text-success">✅ Original/Uncertified Documents Acceptable</h6>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <div class="card document-card h-100 not-certified">
+                            <div class="card-body text-center position-relative">
+                                <span class="badge bg-success status-badge">Original OK</span>
+                                <div class="doc-icon">📊</div>
+                                <h6>Financial Statements</h6>
+                                <p class="text-muted small">Latest audited/reviewed statements</p>
+                                <input type="file" class="form-control mb-2 document-upload" name="financialStatements" accept=".pdf,.jpg,.jpeg,.png">
+                                <small class="text-muted">Last 2 years financial records</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <div class="card document-card h-100 not-certified">
+                            <div class="card-body text-center position-relative">
+                                <span class="badge bg-success status-badge">Original OK</span>
+                                <div class="doc-icon">💰</div>
+                                <h6>Tax Clearance Certificate</h6>
+                                <p class="text-muted small">SARS tax compliance certificate</p>
+                                <input type="file" class="form-control mb-2 document-upload" name="taxClearance" accept=".pdf,.jpg,.jpeg,.png">
+                                <small class="text-muted">Valid tax clearance from SARS</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <div class="card document-card h-100 not-certified">
+                            <div class="card-body text-center position-relative">
+                                <span class="badge bg-success status-badge">Original OK</span>
+                                <div class="doc-icon">🛡️</div>
+                                <h6>Insurance Certificate</h6>
+                                <p class="text-muted small">Professional indemnity/public liability</p>
+                                <input type="file" class="form-control mb-2 document-upload" name="insurance" accept=".pdf,.jpg,.jpeg,.png">
+                                <small class="text-muted">Current insurance coverage</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <div class="card document-card h-100 not-certified">
+                            <div class="card-body text-center position-relative">
+                                <span class="badge bg-success status-badge">Original OK</span>
+                                <div class="doc-icon">📝</div>
+                                <h6>Project References</h6>
+                                <p class="text-muted small">Client references & project details</p>
+                                <input type="file" class="form-control mb-2 document-upload" name="projectReferences" accept=".pdf,.jpg,.jpeg,.png">
+                                <small class="text-muted">Minimum 3 project references</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experience Tab -->
+            <div class="tab-pane fade" id="experience" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-8">
+                        <!-- Add Project Form -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h6> Add Construction Project</h6>
+                            </div>
+                            <div class="card-body">
+                                <form id="projectForm">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Project Name *</label>
+                                            <input type="text" class="form-control" name="projectName" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Client Name *</label>
+                                            <input type="text" class="form-control" name="clientName" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Project Value (ZAR) *</label>
+                                            <input type="number" class="form-control" name="projectValue" min="0" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Project Type *</label>
+                                            <select class="form-control" name="projectType" required>
+                                                <option value="">Select Type</option>
+                                                <option value="CE">Civil Engineering</option>
+                                                <option value="GB">General Building</option>
+                                                <option value="EB">Electrical Building</option>
+                                                <option value="ME">Mechanical Engineering</option>
+                                                <option value="EP">Earthworks</option>
+                                                <option value="RD">Roads & Earthworks</option>
+                                                <option value="PW">Pipe & Water</option>
+                                                <option value="DM">Demolition</option>
+                                                <option value="SC">Specialist Construction</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Start Date *</label>
+                                            <input type="date" class="form-control" name="startDate" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Completion Date *</label>
+                                            <input type="date" class="form-control" name="completionDate" required>
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <label class="form-label">Project Description *</label>
+                                            <textarea class="form-control" name="projectDescription" rows="3" required placeholder="Brief description of work completed..."></textarea>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Contact Person</label>
+                                            <input type="text" class="form-control" name="contactPerson">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Contact Phone</label>
+                                            <input type="tel" class="form-control" name="contactPhone">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Add Project</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Projects List -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h6> Project Portfolio</h6>
+                            </div>
+                            <div class="card-body" id="projectsList">
+                                <!-- Sample projects will be loaded here -->
+                                <div class="project-card card mb-3">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <h6 class="mb-1">Sandton Office Complex</h6>
+                                                <p class="text-muted mb-2">Client: Urban Development Co.</p>
+                                                <p class="mb-2">Commercial building construction with basement parking and modern office facilities.</p>
+                                                <small class="text-muted">Jan 2023 - Dec 2023 | CE - Civil Engineering</small>
+                                            </div>
+                                            <div class="text-end">
+                                                <h6 class="text-success">R1,850,000</h6>
+                                                <small class="text-muted">Contact: John Smith<br>+27 11 123 4567</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="project-card card mb-3">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <h6 class="mb-1">Residential Estate - Phase 1</h6>
+                                                <p class="text-muted mb-2">Client: Johannesburg Municipality</p>
+                                                <p class="mb-2">Construction of 50 low-cost housing units with full infrastructure development.</p>
+                                                <small class="text-muted">Mar 2022 - Feb 2023 | GB - General Building</small>
+                                            </div>
+                                            <div class="text-end">
+                                                <h6 class="text-success">R3,200,000</h6>
+                                                <small class="text-muted">Contact: Sarah Johnson<br>+27 11 456 7890</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="project-card card mb-3">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <h6 class="mb-1">School Renovation Project</h6>
+                                                <p class="text-muted mb-2">Client: Gauteng Department of Education</p>
+                                                <p class="mb-2">Complete renovation of primary school including new classrooms and administration block.</p>
+                                                <small class="text-muted">Jun 2021 - Mar 2022 | GB - General Building</small>
+                                            </div>
+                                            <div class="text-end">
+                                                <h6 class="text-success">R890,000</h6>
+                                                <small class="text-muted">Contact: Michael Adams<br>+27 12 789 1234</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <!-- Experience Summary -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h6> Experience Summary</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="experience-level mb-3">
+                                    <h4 class="mb-0">Grade 3</h4>
+                                    <small>Qualified Grade Level</small>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between">
+                                        <small>Total Project Value</small>
+                                        <strong>R5,940,000</strong>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <small>Projects Completed</small>
+                                        <strong>3</strong>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <small>Average Project Size</small>
+                                        <strong>R1,980,000</strong>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3">
+                                    <h6 class="mb-2">Specialties Breakdown</h6>
+                                    <div class="mb-2">
+                                        <div class="d-flex justify-content-between">
+                                            <small>Civil Engineering (CE)</small>
+                                            <small>1 project</small>
+                                        </div>
+                                        <div class="progress mb-1" style="height: 4px;">
+                                            <div class="progress-bar" style="width: 33%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <div class="d-flex justify-content-between">
+                                            <small>General Building (GB)</small>
+                                            <small>2 projects</small>
+                                        </div>
+                                        <div class="progress" style="height: 4px;">
+                                            <div class="progress-bar" style="width: 67%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CIDB Requirements -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h6> Grade 3 Requirements</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span>Contract Value Limit</span>
+                                        <span class="cidb-grade-badge">R2M</span>
+                                    </div>
+                                </div>
+                                
+                                <h6 class="mt-3 mb-2">Requirements Status:</h6>
+                                <div class="mb-2">
+                                    <div class="d-flex justify-content-between">
+                                        <small>Minimum Experience</small>
+                                        <span class="text-success">✓ Met</span>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <div class="d-flex justify-content-between">
+                                        <small>Financial Standing</small>
+                                        <span class="text-warning">⚠ Pending</span>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <div class="d-flex justify-content-between">
+                                        <small>Technical Capacity</small>
+                                        <span class="text-success">✓ Met</span>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <div class="d-flex justify-content-between">
+                                        <small>Management Systems</small>
+                                        <span class="text-danger">✗ Required</span>
+                                    </div>
+                                </div>
+
+                                <div class="alert alert-info mt-3">
+                                    <small><strong>Next Steps:</strong> Upload financial statements and implement quality management system to complete Grade 3 requirements.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    <!-- Offline Work Button -->
+    <button class="btn btn-warning offline-work-btn" id="offlineWorkBtn">
+        💾 Work Offline
+    </button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<script src="script.js"></script>
+</body>
+</html>
