@@ -1,114 +1,124 @@
-const CACHE_NAME = 'regapp-v1';
+const CACHE_NAME = 'regapp-v3-api'; // New version name to force update
+const API_BASE_URL = 'http://localhost:5000/api'; // Must match the frontend
 const urlsToCache = [
   '/',
   '/index.html',
+  '/styles.css',
+  '/script.js',
   'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css',
   'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js'
 ];
 
-// Install event - cache resources
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
-  );
-});
-
-// Fetch event - serve cached content when offline
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Return cached version or fetch from network
-        if (response) {
-          return response;
+// --- IndexedDB Helper (needed for the Service Worker context) ---
+// This is a minimal version. In a real app, this would be in a shared script.
+const dbPromise = new Promise((resolve, reject) => {
+    const request = indexedDB.open('RegAppDB', 1);
+    request.onerror = () => reject("Error opening DB");
+    request.onsuccess = () => resolve(request.result);
+    request.onupgradeneeded = (event) => {
+        const db = event.target.result;
+        if (!db.objectStoreNames.contains('uploadQueue')) {
+            db.createObjectStore('uploadQueue', { keyPath: 'id' });
         }
-        return fetch(event.request).catch(() => {
-          // If both cache and network fail, return offline page
-          if (event.request.destination === 'document') {
-            return caches.match('/');
-          }
-        });
-      })
-  );
+    };
 });
 
-// Activate event - clean up old caches
-self.addEventListener('activate', (event) => {
+// --- Service Worker Lifecycle Events ---
+
+self.addEventListener('install', (event) => {
+  console.log('Service Worker: Installing...');
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
+    caches.open(CACHE_NAME).then((cache) => {
+        console.log('Service Worker: Caching app shell');
+        return cache.addAll(urlsToCache);
     })
   );
 });
 
-// Background sync for queued uploads
+self.addEventListener('activate', (event) => {
+  console.log('Service Worker: Activating...');
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.filter(name => name !== CACHE_NAME).map(name => caches.delete(name))
+      );
+    })
+  );
+  return self.clients.claim();
+});
+
+self.addEventListener('fetch', (event) => {
+    // Strategy: Network falling back to Cache.
+    // For API calls, always try the network first.
+    if (event.request.url.startsWith(API_BASE_URL)) {
+        event.respondWith(
+            fetch(event.request).catch(() => {
+                // If an API call fails, return a generic error response.
+                return new Response(JSON.stringify({ error: 'API is offline' }), {
+                    headers: { 'Content-Type': 'application/json' }
+                });
+            })
+        );
+        return;
+    }
+
+    // For non-API requests (app shell files), use Cache falling back to Network.
+    event.respondWith(
+        caches.match(event.request).then((response) => {
+            return response || fetch(event.request);
+        })
+    );
+});
+
+
+// --- Background Sync Event ---
+
 self.addEventListener('sync', (event) => {
   if (event.tag === 'background-sync') {
-    event.waitUntil(processUploadQueue());
+    console.log('Service Worker: Background sync triggered!');
+    event.waitUntil(processQueue());
   }
 });
 
-async function processUploadQueue() {
-  try {
-    // Get queued items from IndexedDB or localStorage
-    const queueItems = JSON.parse(localStorage.getItem('uploadQueue') || '[]');
-    
-    for (const item of queueItems) {
-      try {
-        // Process each queued item
-        if (item.type === 'document') {
-          await uploadQueuedDocument(item);
-        } else if (item.type === 'application') {
-          await submitQueuedApplication(item);
-        }
-      } catch (error) {
-        console.error('Failed to process queue item:', error);
-      }
+async function processQueue() {
+    const db = await dbPromise;
+    const tx = db.transaction('uploadQueue', 'readonly');
+    const store = tx.objectStore('uploadQueue');
+    const queueItems = await store.getAll();
+
+    if (queueItems.length === 0) {
+        console.log('Service Worker: Upload queue is empty.');
+        return;
     }
-  } catch (error) {
-    console.error('Background sync failed:', error);
-  }
-}
 
-async function uploadQueuedDocument(item) {
-  const formData = new FormData();
-  
-  // Convert base64 back to file
-  const response = await fetch(item.file.data);
-  const blob = await response.blob();
-  const file = new File([blob], item.file.name, { type: item.file.type });
-  
-  formData.append('file', file);
-  formData.append('document_type', item.documentInfo.type);
-  
-  if (item.documentInfo.expiryDate) {
-    const expiryDays = Math.ceil((new Date(item.documentInfo.expiryDate) - new Date()) / (1000 * 60 * 60 * 24));
-    formData.append('expiry_days', expiryDays.toString());
-  }
-  
-  return fetch('/api/documents', {
-    method: 'POST',
-    body: formData
-  });
-}
+    console.log('Service Worker: Processing', queueItems.length, 'items from the queue.');
+    
+    try {
+        // Send the entire queue to the backend in one go.
+        const response = await fetch(`${API_BASE_URL}/process-queue`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ queue_items: queueItems })
+        });
 
-async function submitQueuedApplication(item) {
-  return fetch('/api/applications', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(item.data)
-  });
+        if (!response.ok) {
+            throw new Error('Server failed to process the queue.');
+        }
+
+        const result = await response.json();
+
+        // If server call is successful, clear the queue.
+        console.log('Service Worker: Queue successfully processed by server.', result);
+        const writeTx = db.transaction('uploadQueue', 'readwrite');
+        await writeTx.objectStore('uploadQueue').clear();
+        await writeTx.done;
+        
+        // Notify open clients that the sync is complete so they can refresh UI.
+        const clients = await self.clients.matchAll();
+        clients.forEach(client => client.postMessage({ type: 'QUEUE_PROCESSED' }));
+
+    } catch (error) {
+        console.error('Service Worker: Failed to process queue.', error);
+        // Optional: Do not clear the queue if the server fails, so it can be retried.
+    }
 }
