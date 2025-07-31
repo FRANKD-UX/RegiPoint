@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RegApp - Regulatory Applications</title>
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- PWA Meta -->
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlJlZ0FwcCAtIFJlZ3VsYXRvcnkgQXBwbGljYXRpb25zIiwKICAic2hvcnRfbmFtZSI6ICJSZWdBcHAiLAogICJzdGFydF91cmwiOiAiLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzAwN2JmZiIsCiAgInRoZW1lX2NvbG9yIjogIiMwMDdiZmYiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSGRwWkhSb1BTSXlORFFpSUdobGFXZG9kRDBpTWpRMElqNEtQR05wY21Oc1pTQmplRDBpTVRJeUlpQmplVDBpTVRJeUlpQnlQU0kyTUNJZ1ptbHNiRDBpSXpBd04ySm1aaUkvUGdvOGRHVjRkQ0I0UFNJeE1qSWlJSGs5SWpFeU1pSWdkR1Y0ZEMxaGJtTm9iM0k5SW0xcFpHUnNaU0lnWm05dWRDMXphWHBsUFNJeE5pSWdabWxzYkQwaUkzZG1aU0lnWm05dWRDMW1ZVzFwYkhrOWFXNXpaWEpwYVhBK1VrVkhQQzkwWlhoMFBnbzhMM04yWno0PSIsCiAgICAgICJzaXplcyI6ICIyNDR4MjQ0IiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgIH0KICBdCn0=">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">   
+</head>
+<body>
+    <!-- Offline Indicator -->
+    <div id="offlineIndicator" class="offline-indicator">Offline Mode</div>
+    
+    <!-- Queue Indicator -->
+    <div id="queueIndicator" class="queue-indicator">
+        <small id="queueCount">0 items queued</small>
+    </div>
+
+    <!-- Login Page -->
+    <div id="loginPage" class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="text-center mb-4">RegApp Login</h3>
+                        <div id="loginError" class="alert alert-danger hidden"></div>
+                        <form id="loginForm">
+                            <div class="mb-3">
+                                <label class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="phoneNumber" placeholder="+234..." required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">PIN</label>
+                                <input type="password" class="form-control" id="pin" placeholder="4-digit PIN" maxlength="4" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Login</button>
+                        </form>
+                        <div class="text-center mt-3">
+                            <small class="text-muted">Demo: +2341234567890, PIN: 1234</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Home Page -->
+    <div id="homePage" class="container mt-4 hidden">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4>Select Regulatory Body</h4>
+                    <button id="logoutBtn" class="btn btn-outline-secondary btn-sm">Logout</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-6 text-center">
+                <div class="company-circle" data-company="cac" data-country="nigeria">
+                    <div>
+                        <div style="font-size: 24px;">🏢</div>
+                        <small>CAC Nigeria</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 text-center">
+                <div class="company-circle" data-company="cipc" data-country="south-africa">
+                    <div>
+                        <div style="font-size: 24px;">🏛️</div>
+                        <small>CIPC S.Africa</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 text-center">
+                <div class="company-circle" data-company="rdb" data-country="rwanda">
+                    <div>
+                        <div style="font-size: 24px;">🌟</div>
+                        <small>RDB Rwanda</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 text-center">
+                <div class="company-circle" data-company="gra" data-country="ghana">
+                    <div>
+                        <div style="font-size: 24px;">⭐</div>
+                        <small>GRA Ghana</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Document Status Section -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h6>Document Status</h6>
+                    </div>
+                    <div class="card-body" id="documentStatus">
+                        <p class="text-muted">No documents uploaded yet.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Form -->
+    <div id="formPage" class="container mt-4 hidden">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 id="formTitle">Application Form</h4>
+                    <button id="backToHome" class="btn btn-outline-secondary btn-sm">← Back</button>
+                </div>
+            </div>
+        </div>
+
+        <form id="applicationForm">
+            <!-- Personal Information -->
+            <div class="form-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h6>Personal Information</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control" name="fullName" required>
+                                <button type="button" class="btn btn-link btn-sm ussd-fill" data-field="fullName">Fill via USSD</button>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">ID Number</label>
+                                <input type="text" class="form-control" name="idNumber" required>
+                                <button type="button" class="btn btn-link btn-sm ussd-fill" data-field="idNumber">Fill via USSD</button>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" name="phone" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Company Information -->
+            <div class="form-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h6>Company Information</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Company Name</label>
+                                <input type="text" class="form-control" name="companyName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Business Type</label>
+                                <select class="form-control" name="businessType" required>
+                                    <option value="">Select...</option>
+                                    <option value="sole-proprietorship">Sole Proprietorship</option>
+                                    <option value="partnership">Partnership</option>
+                                    <option value="limited-company">Limited Company</option>
+                                    <option value="ngo">NGO</option>
+                                </select>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="form-label">Business Address</label>
+                                <textarea class="form-control" name="businessAddress" rows="3" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Required Documents -->
+            <div class="form-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h6>Required Documents</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Police Clearance Certificate</label>
+                            <input type="file" class="form-control document-upload" name="policeClearance" accept="image/*,.pdf" data-expires="90">
+                            <small class="text-muted">Valid for 3 months</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Bank Statement</label>
+                            <input type="file" class="form-control document-upload" name="bankStatement" accept="image/*,.pdf" data-expires="30">
+                            <small class="text-muted">Valid for 1 month</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">ID Copy</label>
+                            <input type="file" class="form-control document-upload" name="idCopy" accept="image/*,.pdf">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Passport Photo</label>
+                            <input type="file" class="form-control document-upload" name="passportPhoto" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-success w-100 mb-4">Submit Application</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <script src="script.js"></script>
+</body>
+</html>
